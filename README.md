@@ -48,7 +48,7 @@ the Free Software Foundation.
 AbundantOTU+ is a tool for fast identification and quantification of abundant Operational Taxonomic Units (OTU). It takes in DNA sequences of 16S rRNA genes (gene fragments) as inputs, and outputs consensus sequences of abundant OTUs. 
 
 AbundantOTU+ (and AbundantOTU) on the web:
-  http://omics.informatics.indiana.edu/AbundantOTU+
+  http://omics.informatics.indiana.edu/AbundantOTU
   (Please check the project home page for updates and newer version of the program)
 
 - Installation
