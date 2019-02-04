@@ -1,0 +1,23 @@
+#If you have multiple samples, and would like to have a sample-otu table, please follow the steps
+
+#Step 1: prepare a file listing the fasta file sof all the samples
+#    fecal-sample.txt 
+
+#Step 2: merge fasta files into a single
+sh ../scripts/merge.sh fecal-sample.txt fecal-all.fa > fecal-all.info
+
+#Step 3: run AbundantOTU
+../bin/AbundantOTU+ -i fecal-all.fa -o fecal-all-abundantotu
+
+#Step 4: taxonomic assignment for the OTU consensus sequences
+#This step can be skipped if no taxonomic labels are required for the otus (so the OTUs are shown as otu1, otu2 etc)
+#One may use different approaches to assign taxonomic labels to the OTUs (using their consensus sequences)
+#Here we will mapseq as an example,
+#first call mapseq to assign taxonomic labels to the consensus 
+/u/yye/bin/mapseq-1.2.3-linux/mapseq fecal-all-abundantotu.cons > fecal-all-abundantotu.cons.mapseq
+#then prepare a taxonomic assignment file from the mapseq output file
+awk 'FNR>2 {print $1 "\t" $14 "|" $17 "|" $20 "|" $23 "|" $26 "|" $29}' FS="\t" fecal-all-abundantotu.cons.mapseq > fecal-all-abundantotu.cons.tax 
+
+# 5) prepare a table using otu-sample-table.py
+# -t is optional for otu-sample-table.py
+../scripts/otu-sample-table.py -i fecal-all.info -c fecal-all-abundantotu.clust -o fecal-otu-table.txt -m 5 -t fecal-all-abundantotu.cons.tax
